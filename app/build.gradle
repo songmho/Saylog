@@ -8,8 +8,18 @@ android {
         minSdkVersion 11
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "0.20"
     }
+
+    signingConfigs{
+        release{
+            storeFile file("Saylog.jks")
+            storePassword "saylog123"
+            keyAlias "Saylog"
+            keyPassword "saylog123"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
