@@ -17,9 +17,10 @@ import java.util.List;
  * Created by songmho on 2015-02-16.
  */
 public class ListFragment extends Fragment {
+
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +40,16 @@ public class ListFragment extends Fragment {
 
     private List<RecyclerItem> makingList() {
         List<RecyclerItem> items=new ArrayList<>();
-        for(int i=0;i<20;i++) {
+      //  for(int i=0;i<20;i++) {
             RecyclerItem recyclerItem = new RecyclerItem("sound body, sound mind.", "-saying       ", "2015.02.16");
             items.add(recyclerItem);
-        }
+        RecyclerItem recyclerItem1 = new RecyclerItem("sound body", "-saying       ", "2015.02.16");
+        items.add(recyclerItem1);
+        RecyclerItem recyclerItem2 = new RecyclerItem("sound body,", "-saying       ", "2015.02.16");
+        items.add(recyclerItem2);
+        RecyclerItem recyclerItem3 = new RecyclerItem("sound body, sound .", "-saying       ", "2015.02.16");
+        items.add(recyclerItem3);
+       // }
         return items;
     }
 

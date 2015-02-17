@@ -1,6 +1,8 @@
 package com.songmho.saylog;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,16 +28,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.itemLayout=itemLayout;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         public TextView saying;
         public TextView source;
         public TextView date;
-
+        public CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
             saying=(TextView)itemView.findViewById(R.id.saying);
             source=(TextView)itemView.findViewById(R.id.source);
             date=(TextView)itemView.findViewById(R.id.date);
+            cardView=(CardView)itemView.findViewById(R.id.cardview);
+            cardView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case  R.id.cardview:
+                    Intent intent=new Intent(context,DetailActivity.class);
+                    intent.putExtra("saying",saying.getText());
+                    intent.putExtra("source",source.getText());
+                    intent.putExtra("date",date.getText());
+                    context.startActivity(intent);
+                    break;
+            }
         }
     }
 

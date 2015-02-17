@@ -2,6 +2,7 @@ package com.songmho.saylog;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         bt_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this,AddActivity.class));
             }
         });
     }
