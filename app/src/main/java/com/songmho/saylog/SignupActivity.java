@@ -58,6 +58,7 @@ public class SignupActivity extends ActionBarActivity {
                             editor.putString("email",email_str);
                             editor.putString("password",String.valueOf(password.getText()));
                             editor.putString("classname",result[0]);
+                            editor.putString("name",String.valueOf(name.getText()));
                             editor.commit();
                             object.saveInBackground();
                             startActivity(new Intent(SignupActivity.this, MainActivity.class));

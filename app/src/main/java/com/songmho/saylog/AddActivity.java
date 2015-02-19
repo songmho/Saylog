@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 
@@ -20,6 +21,11 @@ import java.util.Calendar;
  */
 public class AddActivity extends ActionBarActivity implements View.OnClickListener {
     TextView text_date;
+    EditText et_saying;
+    EditText et_source;
+    int cur_year;
+    int cur_mon;
+    int cur_day;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +37,8 @@ public class AddActivity extends ActionBarActivity implements View.OnClickListen
         getSupportActionBar().setTitle("Add");
 
         //뷰 선언 및 초기화
-        EditText et_saying=(EditText)findViewById(R.id.et_saying);
-        EditText et_source=(EditText)findViewById(R.id.et_source);
+        et_saying=(EditText)findViewById(R.id.et_saying);
+        et_source=(EditText)findViewById(R.id.et_source);
         text_date=(TextView)findViewById(R.id.text_date);
         Button bt_date=(Button)findViewById(R.id.bt_date);
         Button bt_add=(Button)findViewById(R.id.bt_add);
@@ -49,9 +55,9 @@ public class AddActivity extends ActionBarActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_date:
-                final int cur_year= Calendar.getInstance().get(Calendar.YEAR);
-                final int cur_mon=Calendar.getInstance().get(Calendar.MONTH);
-                final int cur_day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                cur_year= Calendar.getInstance().get(Calendar.YEAR);
+                cur_mon=Calendar.getInstance().get(Calendar.MONTH);
+                cur_day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
                 Dialog date_picker=new DatePickerDialog(this,new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -63,6 +69,16 @@ public class AddActivity extends ActionBarActivity implements View.OnClickListen
                 break;
             case R.id.bt_add:
                 ParseObject user_obj=new ParseObject("songmho");
+                user_obj.put("saying",String.valueOf(et_saying.getText()));
+                user_obj.put("source",String.valueOf(et_source.getText()));
+                user_obj.put("year",cur_year);
+                user_obj.put("mon",cur_mon);
+                user_obj.put("day",cur_day);
+                user_obj.put("date",text_date.getText());
+                user_obj.put("islist","true");
+                user_obj.saveInBackground();
+                Toast.makeText(getApplicationContext(),"add it",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             default:
                 break;
