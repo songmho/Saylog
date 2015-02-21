@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class DetailActivity extends ActionBarActivity {
     String source_str;
     String date_str;
     Intent intent;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +45,39 @@ public class DetailActivity extends ActionBarActivity {
 
         //뷰 선언 및 초기화
         intent=getIntent();
-        TextView saying=(TextView)findViewById(R.id.saying);
-        TextView source=(TextView)findViewById(R.id.source);
-        TextView date=(TextView)findViewById(R.id.date);
-
-        saying.setText(intent.getStringExtra("saying"));
-        source.setText(intent.getStringExtra("source"));
-        date.setText(intent.getStringExtra("date"));
+        final TextView saying=(TextView)findViewById(R.id.saying);
+        final TextView source=(TextView)findViewById(R.id.source);
+        final TextView date=(TextView)findViewById(R.id.date);
+        progressBar=(ProgressBar)findViewById(R.id.progress);
 
         classname=getpref();
         saying_str=intent.getStringExtra("saying");
         source_str=intent.getStringExtra("source");
         date_str=intent.getStringExtra("date");
 
+        MakeView(saying, source, date);
+    }
+
+    private void MakeView(final TextView saying, final TextView source, final TextView date) {
+        progressBar.setVisibility(View.VISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ParseQuery<ParseObject> query=ParseQuery.getQuery(classname);
+                query.whereContains("saying", saying_str);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                        saying.setText(parseObjects.get(0).getString("saying"));
+                        source.setText(parseObjects.get(0).getString("source"));
+                        date.setText(parseObjects.get(0).getString("date"));
+                    }
+                });
+            }
+        }).start();
+
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

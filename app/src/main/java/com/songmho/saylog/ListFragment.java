@@ -43,7 +43,7 @@ public class ListFragment extends Fragment {
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.my_recycler_view);
         swiperefresh=(SwipeRefreshLayout)cur_container.findViewById(R.id.swiperefresh);
 
-        class_name=getpref();
+        class_name= getClassname();
 
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getActivity());
@@ -64,7 +64,7 @@ public class ListFragment extends Fragment {
         makingList();
     }
 
-    private String getpref() {
+    private String getClassname() {
         String class_name;
         SharedPreferences pref=getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
         class_name=pref.getString("classname","");

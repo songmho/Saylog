@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
         fragmentTransaction=getFragmentManager().beginTransaction();
 
         TextView username=(TextView)findViewById(R.id.username);
-        username.setText(getpref());
+        username.setText(getUsername());
 
         RecyclerView drawer_list=(RecyclerView)findViewById(R.id.drawer_list);
         layoutManager=new LinearLayoutManager(this);
@@ -129,11 +129,11 @@ public class MainActivity extends ActionBarActivity {
         fragmentTransaction.commit();
     }
 
-    private String getpref() {
-        String class_name;
+    private String getUsername() {
+        String username;
         SharedPreferences pref=getSharedPreferences("login_info", Context.MODE_PRIVATE);
-        class_name=pref.getString("name","");                       //이름 가져옴.
+        username=pref.getString("name","");                       //이름 가져옴.
 
-        return class_name;
+        return username;
     }
 }

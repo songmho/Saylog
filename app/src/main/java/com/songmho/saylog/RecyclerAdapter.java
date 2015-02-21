@@ -94,12 +94,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.container.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(holder.title.getText()=="setup") {
+                    if(holder.title.getText()=="mypage"){
+                        Intent intent = new Intent(context, MypageActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+
+                    else if(holder.title.getText()=="setup") {
                         Intent intent = new Intent(context, SetupActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }
-                    if(holder.title.getText()=="about"){
+                    else if(holder.title.getText()=="about"){
                         Intent intent = new Intent(context, AboutActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
