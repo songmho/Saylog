@@ -28,6 +28,7 @@ public class DetailActivity extends ActionBarActivity {
     String saying_str;
     String source_str;
     String date_str;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class DetailActivity extends ActionBarActivity {
         getSupportActionBar().setTitle("Saying");
 
         //뷰 선언 및 초기화
-        Intent intent=getIntent();
+        intent=getIntent();
         TextView saying=(TextView)findViewById(R.id.saying);
         TextView source=(TextView)findViewById(R.id.source);
         TextView date=(TextView)findViewById(R.id.date);
@@ -84,7 +85,12 @@ public class DetailActivity extends ActionBarActivity {
                 break;
 
             case R.id.action_fix:
-                Toast.makeText(getApplicationContext(),"fix",Toast.LENGTH_SHORT).show();
+                Intent add=new Intent(DetailActivity.this,AddnFixActivity.class);
+                add.putExtra("state","fix");
+                add.putExtra("saying",intent.getStringExtra("saying"));
+                add.putExtra("source",intent.getStringExtra("source"));
+                add.putExtra("date",intent.getStringExtra("date"));
+                startActivity(add);
                 break;
 
             case R.id.action_share:

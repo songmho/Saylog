@@ -28,7 +28,7 @@ public class AboutActivity extends ActionBarActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-       // String versionname=packageInfo.versionName;
-        //version.setText(versionname);
+        String versionname=packageInfo.versionName;
+        version.setText(versionname);
     }
 }

@@ -71,7 +71,9 @@ public class MainActivity extends ActionBarActivity {
         bt_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,AddActivity.class));
+                Intent add=new Intent(MainActivity.this,AddnFixActivity.class);
+                add.putExtra("state","add");
+                startActivity(add);
             }
         });
     }
