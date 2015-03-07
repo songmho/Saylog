@@ -100,7 +100,7 @@ public class AddnFixActivity extends ActionBarActivity implements View.OnClickLi
     }
 
     private void fix() {        //class에서 찾아서 fix시키는 메소드
-        ParseQuery<ParseObject> query=ParseQuery.getQuery(getpref());
+        ParseQuery<ParseObject> query=ParseQuery.getQuery(getClassname());
         query.whereContains("saying",getIntent().getStringExtra("saying"));
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -119,7 +119,7 @@ public class AddnFixActivity extends ActionBarActivity implements View.OnClickLi
     }
 
     private void add() {        //class에 add하는 메소드
-        ParseObject user_obj=new ParseObject(getpref());
+        ParseObject user_obj=new ParseObject(getClassname());
         user_obj.put("saying",String.valueOf(et_saying.getText()));
         user_obj.put("source",String.valueOf(et_source.getText()));
         user_obj.put("year",cur_year);
@@ -131,7 +131,7 @@ public class AddnFixActivity extends ActionBarActivity implements View.OnClickLi
         Toast.makeText(getApplicationContext(), "add it", Toast.LENGTH_SHORT).show();
     }
 
-    private String getpref() {
+    private String getClassname() {
         String class_name;
         SharedPreferences pref=getSharedPreferences("login_info", Context.MODE_PRIVATE);
         class_name=pref.getString("classname","");                       //클래스 이름 가져옴.

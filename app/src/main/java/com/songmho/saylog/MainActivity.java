@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -50,10 +52,14 @@ public class MainActivity extends ActionBarActivity {
         RecyclerView drawer_list=(RecyclerView)findViewById(R.id.drawer_list);
         layoutManager=new LinearLayoutManager(this);
         drawer_list.setLayoutManager(layoutManager);
-        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close){
+        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close){         //drawerToggle 선언
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                if(ParseUser.getCurrentUser()==null){           //로그인이 되어있지 않을 때
+                    Toast.makeText(getApplicationContext(),"Please log in",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                }
             }
 
             @Override
@@ -70,10 +76,16 @@ public class MainActivity extends ActionBarActivity {
         drawer_list.setAdapter(new RecyclerAdapter(getApplicationContext(),drawer_list_list,R.layout.item_drawerlist));
         bt_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent add=new Intent(MainActivity.this,AddnFixActivity.class);
-                add.putExtra("state","add");
-                startActivity(add);
+            public void onClick(View v) {                   //추가 버튼 누르는 경우
+                if(ParseUser.getCurrentUser()!=null) {      //로그인이 되어있을 경우
+                    Intent add = new Intent(MainActivity.this, AddnFixActivity.class);
+                    add.putExtra("state", "add");
+                    startActivity(add);
+                }
+                else{                                           //로그인 되어있지 않을 경우
+                    Toast.makeText(getApplicationContext(),"Please log in",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                }
             }
         });
     }
@@ -94,39 +106,12 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.menu_main,menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(drawerToggle.onOptionsItemSelected(item))        //드로어 토글이 선택되었을 때
-            return true;
-
-        else if(item.getItemId()==R.id.action_view_frg){     //캘린더 버튼 클릭되었을 때
-            changeFragment(item);
-            return true;
-        }
-        else
-            return super.onOptionsItemSelected(item);
-    }
-
-    private void changeFragment(MenuItem item) {
-        fragmentTransaction=getFragmentManager().beginTransaction();
-
-        if(isList) {
-            cur_fragment = new CalendarFragment();
-            item.setIcon(R.drawable.list);
-            isList=false;
-        }
-        else if(!isList){
-            cur_fragment = new ListFragment();
-            item.setIcon(R.drawable.calendar);
-            isList=true;
-        }
-
-        fragmentTransaction.replace(R.id.container, cur_fragment);
-        fragmentTransaction.commit();
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     private String getUsername() {

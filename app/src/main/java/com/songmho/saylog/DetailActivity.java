@@ -50,7 +50,7 @@ public class DetailActivity extends ActionBarActivity {
         final TextView date=(TextView)findViewById(R.id.date);
         progressBar=(ProgressBar)findViewById(R.id.progress);
 
-        classname=getpref();
+        classname= getClassname();
         saying_str=intent.getStringExtra("saying");
         source_str=intent.getStringExtra("source");
         date_str=intent.getStringExtra("date");
@@ -90,7 +90,7 @@ public class DetailActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_delete:
+            case R.id.action_delete:            //삭제하는 경우
                 ParseQuery<ParseObject> query=ParseQuery.getQuery(classname);
                 query.whereContains("saying",saying_str);
                 query.findInBackground(new FindCallback<ParseObject>() {
@@ -107,7 +107,7 @@ public class DetailActivity extends ActionBarActivity {
                 finish();
                 break;
 
-            case R.id.action_fix:
+            case R.id.action_fix:            //고치는 경우
                 Intent add=new Intent(DetailActivity.this,AddnFixActivity.class);
                 add.putExtra("state","fix");
                 add.putExtra("saying",intent.getStringExtra("saying"));
@@ -116,7 +116,7 @@ public class DetailActivity extends ActionBarActivity {
                 startActivity(add);
                 break;
 
-            case R.id.action_share:
+            case R.id.action_share:            //공유하는 경우
                 Intent share_intent=new Intent();
                 share_intent.setAction(Intent.ACTION_SEND);
                 share_intent.putExtra(Intent.EXTRA_TEXT,saying_str+" -"+source_str);
@@ -127,7 +127,7 @@ public class DetailActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String getpref() {
+    private String getClassname() {
         String class_name;
         SharedPreferences pref=getSharedPreferences("login_info", Context.MODE_PRIVATE);
         class_name=pref.getString("classname","");

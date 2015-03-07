@@ -17,6 +17,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +41,13 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_list, container, false);
-        recyclerView=(RecyclerView)cur_container.findViewById(R.id.my_recycler_view);
-        swiperefresh=(SwipeRefreshLayout)cur_container.findViewById(R.id.swiperefresh);
+        recyclerView=(RecyclerView)cur_container.findViewById(R.id.my_recycler_view);           //RecyclerView
+        swiperefresh=(SwipeRefreshLayout)cur_container.findViewById(R.id.swiperefresh);         //swiperefresh
 
         class_name= getClassname();
 
         recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(getActivity());
+        layoutManager=new LinearLayoutManager(getActivity());           //LayoutMager
         recyclerView.setLayoutManager(layoutManager);
         swiperefresh.setColorSchemeColors(R.color.blue1, R.color.blue2, R.color.blue3, R.color.blue4);
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -59,12 +60,12 @@ public class ListFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume() {            //이 프레그먼트를 시작할 때
         super.onResume();
-        makingList();
+        makingList();       //리스트 제작
     }
 
-    private String getClassname() {
+    private String getClassname() {         //sharedPreferences에서 classname을 얻는 메소드
         String class_name;
         SharedPreferences pref=getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
         class_name=pref.getString("classname","");
@@ -72,24 +73,31 @@ public class ListFragment extends Fragment {
         return class_name;
     }
 
-    private void makingList() {
-        final List<RecyclerItem> items=new ArrayList<>();
-        ParseQuery<ParseObject> road_data=ParseQuery.getQuery(class_name);
-        road_data.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                for (int i = 0; i < parseObjects.size(); i++) {
-                    if (parseObjects.get(i).getString("saying") != null) {
-                        RecyclerItem item = new RecyclerItem(parseObjects.get(i).getString("saying"),
-                                parseObjects.get(i).getString("source"), parseObjects.get(i).getString("date"));
-                        items.add(item);
+    private void makingList() {             //리스트 만드는 메소드
+        final List<RecyclerItem> items = new ArrayList<>();
+        if(ParseUser.getCurrentUser()!=null) {      //로그인 되어있는 상태일 때
+            ParseQuery<ParseObject> road_data = ParseQuery.getQuery(class_name);
+            road_data.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    for (int i = 0; i < parseObjects.size(); i++) {
+                        if (parseObjects.get(i).getString("saying") != null) {
+                            RecyclerItem item = new RecyclerItem(parseObjects.get(i).getString("saying"),
+                                    parseObjects.get(i).getString("source"), parseObjects.get(i).getString("date"));
+                            items.add(item);
+                        }
                     }
-                }
-                recyclerView.setAdapter(new RecyclerAdapter(getActivity(), items, R.layout.item_recycler));
+                    recyclerView.setAdapter(new RecyclerAdapter(getActivity(), items, R.layout.item_recycler));
 
-                swiperefresh.setRefreshing(false);
-            }
-        });
+                    swiperefresh.setRefreshing(false);
+                }
+            });
+        }
+        else{                       //아닐 때
+            RecyclerItem item=new RecyclerItem("Please log in","","");          //로그인하라는 item을 넣음.
+            items.add(item);
+            recyclerView.setAdapter(new RecyclerAdapter(getActivity(),items,R.layout.item_recycler));
+        }
     }
 
 }

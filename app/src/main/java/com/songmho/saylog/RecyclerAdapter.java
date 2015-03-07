@@ -24,13 +24,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     int itemLayout;
     String[] drawer_list_list;
 
-    RecyclerAdapter(Context context,List<RecyclerItem> items,int itemLayout){
+    RecyclerAdapter(Context context,List<RecyclerItem> items,int itemLayout){       //listfragment에 쓰이는 생성자
         this.context=context;
         this.items=items;
         this.itemLayout=itemLayout;
     }
 
-    RecyclerAdapter(Context context, String[] drawer_list_list, int itemLayout) {
+    RecyclerAdapter(Context context, String[] drawer_list_list, int itemLayout) {       //drawer에 들어가는 리스트의 생성자
         this.context=context;
         this.drawer_list_list=drawer_list_list;
         this.itemLayout=itemLayout;
@@ -46,13 +46,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public TextView title;
         public ViewHolder(View itemView, int itemLayout) {
             super(itemView);
-            if(itemLayout==R.layout.item_recycler) {
+            if(itemLayout==R.layout.item_recycler) {                //listfragment에서 왔을 때
                 saying = (TextView) itemView.findViewById(R.id.saying);
                 source = (TextView) itemView.findViewById(R.id.source);
                 date = (TextView) itemView.findViewById(R.id.date);
                 cardView = (CardView) itemView.findViewById(R.id.cardview);
             }
-            else if(itemLayout==R.layout.item_drawerlist) {
+            else if(itemLayout==R.layout.item_drawerlist) {         //drawer에서 왔을 때
                 title = (TextView) itemView.findViewById(R.id.title);
                 container=(LinearLayout)itemView.findViewById(R.id.container);
             }

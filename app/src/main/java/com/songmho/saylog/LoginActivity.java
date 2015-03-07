@@ -41,6 +41,7 @@ public class LoginActivity extends Activity {
                                 SharedPreferences.Editor editor = pref_login.edit();
                                 editor.putString("email", String.valueOf(email.getText()));
                                 editor.putString("password", String.valueOf(password.getText()));
+                                editor.putString("name",ParseUser.getCurrentUser().getString("name"));
                                 String[] result = String.valueOf(email.getText()).split("\\@");
                                 editor.putString("classname", result[0]);
                                 editor.commit();
