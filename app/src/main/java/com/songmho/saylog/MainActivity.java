@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity {
@@ -27,7 +26,6 @@ public class MainActivity extends ActionBarActivity {
     ActionBarDrawerToggle drawerToggle;
     FragmentTransaction fragmentTransaction;
     Fragment cur_fragment=new ListFragment();
-    Boolean isList=true;
     RecyclerView.LayoutManager layoutManager;
     String[] drawer_list_list= new String[]{"mypage","setup","about"};
 
@@ -56,10 +54,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if(ParseUser.getCurrentUser()==null){           //로그인이 되어있지 않을 때
-                    Toast.makeText(getApplicationContext(),"Please log in",Toast.LENGTH_SHORT).show();
+                if(ParseUser.getCurrentUser()==null)           //로그인이 되어있지 않을 때
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                }
             }
 
             @Override
@@ -82,10 +78,8 @@ public class MainActivity extends ActionBarActivity {
                     add.putExtra("state", "add");
                     startActivity(add);
                 }
-                else{                                           //로그인 되어있지 않을 경우
-                    Toast.makeText(getApplicationContext(),"Please log in",Toast.LENGTH_SHORT).show();
+                else                                           //로그인 되어있지 않을 경우
                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                }
             }
         });
     }

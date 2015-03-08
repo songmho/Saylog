@@ -21,13 +21,16 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:hint="이메일"/>
+            android:hint="이메일"
+            android:singleLine="true"
+            android:nextFocusDown="@+id/password"/>
         <EditText
             android:id="@+id/password"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:hint="비밀번호"
+            android:singleLine="true"
             android:inputType="textPassword"/>
         <Button
             android:id="@+id/login"

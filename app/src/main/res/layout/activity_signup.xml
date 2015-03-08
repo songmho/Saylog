@@ -19,7 +19,9 @@
         <EditText
             android:id="@+id/email"
             android:layout_width="200dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/name"
+            android:singleLine="true"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -35,7 +37,9 @@
         <EditText
             android:id="@+id/name"
             android:layout_width="200dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/password"
+            android:singleLine="true"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -52,7 +56,9 @@
             android:id="@+id/password"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:nextFocusDown="@+id/pass_check"
+            android:singleLine="true"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -68,7 +74,8 @@
             android:id="@+id/pass_check"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:singleLine="true"/>
     </LinearLayout>
     <Button
         android:id="@+id/signup_button"

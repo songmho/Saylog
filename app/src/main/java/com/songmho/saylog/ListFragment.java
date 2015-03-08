@@ -94,9 +94,10 @@ public class ListFragment extends Fragment {
             });
         }
         else{                       //아닐 때
-            RecyclerItem item=new RecyclerItem("Please log in","","");          //로그인하라는 item을 넣음.
-            items.add(item);
-            recyclerView.setAdapter(new RecyclerAdapter(getActivity(),items,R.layout.item_recycler));
+            //RecyclerItem item=new RecyclerItem("Please log in","","");          //로그인하라는 item을 넣음.
+            // items.add(item);
+            //recyclerView.setAdapter(new RecyclerAdapter(getActivity(),items,R.layout.item_recycler));
+            swiperefresh.setVisibility(View.GONE);
         }
     }
 

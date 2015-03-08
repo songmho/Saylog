@@ -25,7 +25,7 @@ public class SplashActivity extends Activity {
 
         progressBar=(ProgressBar)findViewById(R.id.progress);
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
 
         handler();
     }
@@ -40,17 +40,30 @@ public class SplashActivity extends Activity {
     }
 
     private void login() {
-        SharedPreferences pref_login=getSharedPreferences("login_info", MODE_PRIVATE);
-        String email = pref_login.getString("email", "");
-        String password = pref_login.getString("password", "");
-        ParseUser.logInInBackground(email, password, new LogInCallback() {
+        new Thread(new Runnable() {
             @Override
-            public void done(ParseUser parseUser, ParseException e) {
-                 Class[] finalC = new Class[1];
-                finalC[0] =MainActivity.class;
-                finishSplash(finalC[0]);
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+                        SharedPreferences pref_login=getSharedPreferences("login_info", MODE_PRIVATE);
+                        String email = pref_login.getString("email", "");
+                        String password = pref_login.getString("password", "");
+                        ParseUser.logInInBackground(email, password, new LogInCallback() {
+                            @Override
+                            public void done(ParseUser parseUser, ParseException e) {
+                                Class[] finalC = new Class[1];
+                                finalC[0] =MainActivity.class;
+                                finishSplash(finalC[0]);
+                            }
+                        });
+                    }
+                });
             }
-        });
+        }).start();
+        progressBar.setVisibility(View.GONE);
+
     }
 
     private void finishSplash(Class finalC) {
